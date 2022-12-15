@@ -20,6 +20,7 @@
 #include <GL/glut.h>
 #endif
 
+#include <math.h>
 #include <stdlib.h>
 
 
@@ -37,7 +38,7 @@ void desenhaTerreno()
 	float L = 500.0;
 	float incr = 10.0;
 	float y = 0.2;
-	glColor3f(0.0f, 0.0f, 0.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 
 	for (float i = -L; i <= L; i += incr)
 	{
@@ -53,50 +54,113 @@ void desenhaTerreno()
 	}
 }
 
-void DesenhaJupiter() {
-    glColor3f(1.0f, 0.0f, 0.0f);
+void DesenhaOrbita(float raio) {
+    int vertices = 100;
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Desenha circulo
+	float angulo, incremento;
+
+	incremento = (2 * M_PI) / vertices;
+
+	glBegin(GL_LINES);
+     for(angulo=0; angulo<2*M_PI; angulo+=incremento){
+        glVertex3f(raio*cos(angulo), raio*sin(angulo), raio*sin(angulo)+raio*cos(angulo));
+        glVertex3d(raio*cos(angulo+incremento), raio*sin(angulo+incremento), raio*cos(angulo+incremento)+raio*sin(angulo+incremento));
+     }
+    glEnd();
+}
+
+void DesenhaNetuno() {
+    //DesenhaOrbita(155);
+    glColor3f(0.1f, 0.1f, 0.9f);
 
     glPushMatrix();
-            glRotated(angleRotate*1.2, 0, 1, 0); // translação
+            glRotated(angleRotate*0.8, 0, 1, 0); // translação
             glPushMatrix();
-                glTranslated(-95, 40, 0); // manda pra órbita
-                glRotated(angleRotate*1.7, 0.0f, 0.0f, 1.0f); // rotação
-                glutSolidSphere(6,slices,stacks);
+                glTranslated(-155, 40, 0); // manda pra órbita
+                glRotated(angleRotate*0.5, 0.0f, 0.0f, 1.0f); // rotação
+                glutSolidSphere(8,slices,stacks);
+            glPopMatrix();
+    glPopMatrix();
+}
+
+void DesenhaUrano() {
+    //DesenhaOrbita(140);
+    glColor3f(0.5f, 0.6f, 0.0f);
+
+    glPushMatrix();
+            glRotated(angleRotate*0.8, 0, 1, 0); // translação
+            glPushMatrix();
+                glTranslated(140, 40, 0); // manda pra órbita
+                glRotated(angleRotate*0.9, 0.0f, 0.0f, 1.0f); // rotação
+                glutSolidSphere(7.7,slices,stacks);
+            glPopMatrix();
+    glPopMatrix();
+}
+
+void DesenhaSaturno() {
+    //DesenhaOrbita(125);
+    glColor3f(0.5f, 0.1f, 0.5f);
+
+    glPushMatrix();
+            glRotated(angleRotate*0.8, 0, 1, 0); // translação
+            glPushMatrix();
+                glTranslated(-125, 40, 0); // manda pra órbita
+                glRotated(angleRotate*1, 0.0f, 0.0f, 1.0f); // rotação
+                glutSolidSphere(7.3,slices,stacks);
+            glPopMatrix();
+    glPopMatrix();
+}
+
+void DesenhaJupiter() {
+    //DesenhaOrbita(110);
+    glColor3f(1.0f, 0.5f, 0.5f);
+
+    glPushMatrix();
+            glRotated(angleRotate*1, 0, 1, 0); // translação
+            glPushMatrix();
+                glTranslated(110, 40, 0); // manda pra órbita
+                glRotated(angleRotate*1.1, 0.0f, 0.0f, 1.0f); // rotação
+                glutSolidSphere(7,slices,stacks);
             glPopMatrix();
     glPopMatrix();
 }
 
 void DesenhaMarte() {
+    //DesenhaOrbita(95);
     glColor3f(1.0f, 0.0f, 0.0f);
 
     glPushMatrix();
             glRotated(angleRotate*1.2, 0, 1, 0); // translação
             glPushMatrix();
                 glTranslated(-95, 40, 0); // manda pra órbita
-                glRotated(angleRotate*1.7, 0.0f, 0.0f, 1.0f); // rotação
-                glutSolidSphere(6,slices,stacks);
+                glRotated(angleRotate*1.2, 0.0f, 0.0f, 1.0f); // rotação
+                glutSolidSphere(6.5,slices,stacks);
             glPopMatrix();
     glPopMatrix();
 }
 
 void DesenhaTerra() {
+    //DesenhaOrbita(80);
     glColor3f(0.0f, 0.0f, 1.0f);
 
     glPushMatrix();
-            glRotated(angleRotate*1.4, 0, 1, 0); // translação
+            glRotated(angleRotate*2, 0, 1, 0); // translação
             glPushMatrix();
                 glTranslated(80, 40, 0); // manda pra órbita
-                glRotated(angleRotate*1.6, 0.0f, 0.0f, 1.0f); // rotação
+                glRotated(angleRotate*1.4, 0.0f, 0.0f, 1.0f); // rotação
                 glutSolidSphere(6,slices,stacks);
             glPopMatrix();
     glPopMatrix();
 }
 
 void DesenhaVenus() {
+    //DesenhaOrbita(65);
     glColor3f(1.0f, 0.0f, 1.0f);
 
     glPushMatrix();
-            glRotated(angleRotate*1.1, 0, 1, 0); // translação
+            glRotated(angleRotate*3, 0, 1, 0); // translação
             glPushMatrix();
                 glTranslated(-65, 40, 0); // manda pra órbita
                 glRotated(angleRotate*1.6, 0.0f, 0.0f, 1.0f); // rotação
@@ -106,10 +170,11 @@ void DesenhaVenus() {
 }
 
 void DesenhaMercurio() {
+    //DesenhaOrbita(50);
     glColor3f(1.0f, 0.0f, 0.5f);
 
     glPushMatrix();
-            glRotated(angleRotate, 0, 1, 0); // translação
+            glRotated(angleRotate*4, 0, 1, 0); // translação
             glPushMatrix();
                 glTranslated(50, 40, 0); // manda pra órbita
                 glRotated(angleRotate*1.5, 0.0f, 0.0f, 1.0f); // rotação
@@ -135,7 +200,7 @@ void Desenha(void)
 	// de fundo definida previamente
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 
-    //desenhaTerreno();
+    desenhaTerreno();
 
 	DesenhaSol();
 
@@ -148,6 +213,10 @@ void Desenha(void)
 	DesenhaMarte();
 
 	DesenhaJupiter();
+
+	DesenhaSaturno();
+
+	DesenhaUrano();
 
 	// Executa os comandos OpenGL
 	glutSwapBuffers();
@@ -273,7 +342,7 @@ void Teclado (unsigned char key, int x, int y)
 }
 
 void Anima(int value){
-    angleRotate += 1;
+    angleRotate += 0.5;
     glutPostRedisplay();
     glutTimerFunc(10,Anima, 1);
 }
@@ -321,7 +390,7 @@ int main(int argc, char *argv[])
 	glutInitWindowPosition(5,5);
 
 	// Especifica o tamanho inicial em pixels da janela GLUT
-	glutInitWindowSize(1000,1000);
+	glutInitWindowSize(1200,1200);
 
 	// Cria a janela passando como argumento o título da mesma
 	glutCreateWindow("Sistema solar 3d");
